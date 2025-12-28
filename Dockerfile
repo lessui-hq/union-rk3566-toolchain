@@ -38,6 +38,6 @@ WORKDIR /root/workspace
 ENV PATH="/work/MOSS/build.MOSS-RK3566.aarch64/toolchain/usr/bin:${PATH}:/work/MOSS/build.MOSS-RK3566.aarch64/toolchain/aarch64-libreelec-linux-gnueabi/sysroot/bin"
 ENV CROSS_COMPILE=/work/MOSS/build.MOSS-RK3566.aarch64/toolchain/bin/aarch64-libreelec-linux-gnueabi-
 ENV PREFIX=/work/MOSS/build.MOSS-RK3566.aarch64/toolchain/aarch64-libreelec-linux-gnueabi/sysroot/usr
-ENV UNION_PLATFORM=RK3566
+ENV UNION_PLATFORM=rk3566
 
 CMD ["/bin/bash"]
