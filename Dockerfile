@@ -35,6 +35,14 @@ RUN wget https://github.com/lessui-hq/union-rk3566-toolchain/releases/download/l
                 rm "$f" && ln -s "$real_bin" "$f"; \
             fi; \
         fi; \
+    done && \
+    # Fix all symlinks with hardcoded build paths
+    find /opt/toolchain -type l | while read link; do \
+        target=$(readlink "$link"); \
+        if echo "$target" | grep -q "/home/nchapman/Code/LessOS/build.LessOS-RK3566.aarch64/toolchain"; then \
+            new_target=$(echo "$target" | sed 's|/home/nchapman/Code/LessOS/build.LessOS-RK3566.aarch64/toolchain|/opt/toolchain|g'); \
+            rm "$link" && ln -s "$new_target" "$link"; \
+        fi; \
     done
 
 # Setup workspace
@@ -44,9 +52,13 @@ WORKDIR /root/workspace
 
 # Configure toolchain environment
 ENV PATH="/opt/toolchain/bin:${PATH}"
+ENV LD_LIBRARY_PATH="/opt/toolchain/x86_64-linux-gnu/aarch64-rocknix-linux-gnu/lib:/opt/toolchain/lib"
 ENV CROSS_COMPILE=/opt/toolchain/bin/aarch64-rocknix-linux-gnu-
 ENV SYSROOT=/opt/toolchain/aarch64-rocknix-linux-gnu/sysroot
 ENV PREFIX=/opt/toolchain/aarch64-rocknix-linux-gnu/sysroot/usr
 ENV UNION_PLATFORM=rk3566
+# Linker flags for finding shared library dependencies in sysroot
+ENV LDFLAGS="-L${SYSROOT}/usr/lib -Wl,-rpath-link=${SYSROOT}/usr/lib"
+ENV CFLAGS="-I${SYSROOT}/usr/include"
 
 CMD ["/bin/bash"]
