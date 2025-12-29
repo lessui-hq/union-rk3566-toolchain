@@ -59,6 +59,12 @@ ENV CROSS_COMPILE=/opt/toolchain/bin/aarch64-rocknix-linux-gnu-
 ENV SYSROOT=/opt/toolchain/aarch64-rocknix-linux-gnu/sysroot
 ENV PREFIX=/opt/toolchain/aarch64-rocknix-linux-gnu/sysroot/usr
 ENV UNION_PLATFORM=rk3566
+
+# pkg-config for cross-compilation (finds SDL2, librga, etc.)
+ENV PKG_CONFIG_PATH=/opt/toolchain/aarch64-rocknix-linux-gnu/sysroot/usr/lib/pkgconfig
+ENV PKG_CONFIG_LIBDIR=/opt/toolchain/aarch64-rocknix-linux-gnu/sysroot/usr/lib/pkgconfig
+ENV PKG_CONFIG_SYSROOT_DIR=/opt/toolchain/aarch64-rocknix-linux-gnu/sysroot
+
 # Linker flags for finding shared library dependencies in sysroot
 ENV LDFLAGS="-L${SYSROOT}/usr/lib -Wl,-rpath-link=${SYSROOT}/usr/lib"
 ENV CFLAGS="-I${SYSROOT}/usr/include"
