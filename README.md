@@ -4,7 +4,7 @@ Cross-compilation toolchain for Rockchip RK3566 devices (RGB30, RG353P, etc.) ru
 
 ## Overview
 
-This Docker image provides a pre-built toolchain for building LessUI on RK3566-based devices. The toolchain is sourced from the RGB30 toolchain (same SoC) and baked directly into the Docker image.
+This Docker image provides a pre-built toolchain for building LessUI on RK3566-based devices. The toolchain is extracted from a LessOS build and includes SDL2, librga, and all other libraries that LessUI links against.
 
 ## Usage
 
@@ -21,8 +21,14 @@ make build PLATFORM=RK3566
 make shell  # Enters the toolchain container
 ```
 
-The container's `/root/workspace` is bound to `./workspace` by default. The toolchain is located at `/work/MOSS/build.MOSS-RK3566.aarch64` inside the container.
+The container's `/root/workspace` is bound to `./workspace` by default.
+
+## Toolchain Details
+
+- **Location:** `/opt/toolchain`
+- **Target triplet:** `aarch64-rocknix-linux-gnu`
+- **Sysroot:** `/opt/toolchain/aarch64-rocknix-linux-gnu/sysroot`
 
 ## Toolchain Source
 
-Uses the RGB30 toolchain from https://github.com/shauninman/union-rgb30-toolchain (RK3566 hardware is identical to RGB30).
+Extracted from LessOS RK3566 build. To update, build LessOS for RK3566 and package the `build.LessOS-RK3566.aarch64/toolchain/` directory.
