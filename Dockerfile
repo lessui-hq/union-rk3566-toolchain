@@ -43,7 +43,9 @@ RUN wget https://github.com/lessui-hq/union-rk3566-toolchain/releases/download/l
             new_target=$(echo "$target" | sed 's|/home/nchapman/Code/LessOS/build.LessOS-RK3566.aarch64/toolchain|/opt/toolchain|g'); \
             rm "$link" && ln -s "$new_target" "$link"; \
         fi; \
-    done
+    done && \
+    # Remove toolchain make/gmake to avoid jobserver incompatibility with system make
+    rm -f /opt/toolchain/bin/make /opt/toolchain/bin/gmake
 
 # Setup workspace
 RUN mkdir -p /root/workspace
